@@ -67,7 +67,8 @@ impl eframe::App for App {
                 self.tracer.trace();
             }
 
-            dbg!(self.tracer.width() * self.tracer.height() * 3);
+            dbg!(self.tracer.width());
+            dbg!(self.tracer.height());
             dbg!(self.tracer.image_buffer().len());
             let render = RetainedImage::from_color_image(
                 "render",

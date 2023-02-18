@@ -46,6 +46,7 @@ impl Tracer {
 
         self.width = width;
         self.height = height;
+        self.image_buffer.resize(width * height * 3, 255);
         Ok(())
     }
 
