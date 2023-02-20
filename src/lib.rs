@@ -1,7 +1,7 @@
-use std::{fs::File, io::Write};
+use std::{fs::File, io::Write, path::PathBuf};
 
 pub fn save_buffer_to_ppm(
-    path: &str,
+    path: PathBuf,
     buffer: &[u8],
     width: usize,
     height: usize,
