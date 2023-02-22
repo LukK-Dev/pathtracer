@@ -18,10 +18,16 @@ impl Tracer {
     }
 
     pub fn trace(&mut self) {
+        const COLOR_1: [u8; 3] = [90, 122, 200];
+        const COLOR_2: [u8; 3] = [190, 142, 240];
         let frame_time = Instant::now();
 
-        for i in 0..self.image_buffer.len() {
-            self.image_buffer[i] = rand::random();
+        for i in (0..self.image_buffer.len()).step_by(3) {
+            let y = i / self.width;
+            for j in 0..2 {
+                self.image_buffer[i + j] =
+                    lerp(COLOR_1[j], COLOR_2[j], y as f32 / self.height as f32)
+            }
         }
 
         self.frame_time = frame_time.elapsed();
@@ -53,4 +59,8 @@ impl Tracer {
     pub fn frame_time(&self) -> Duration {
         self.frame_time
     }
+}
+
+fn lerp(v1: u8, v2: u8, t: f32) -> u8 {
+    (v1 as f32 + (v2 as f32 - v1 as f32) * t) as u8
 }
