@@ -1,7 +1,8 @@
 use std::time::{Duration, Instant};
 
-const COLOR_1: [u8; 3] = [0; 3];
-const COLOR_2: [u8; 3] = [255; 3];
+use pathtracer::Color;
+
+use crate::math::Lerp;
 
 pub struct Tracer {
     width: usize,
@@ -32,8 +33,11 @@ impl Tracer {
         for i in (0..self.image_buffer.len()).step_by(3) {
             let y = i / self.width;
             for j in 0..2 {
-                self.image_buffer[i + j] =
-                    lerp(COLOR_1[j], COLOR_2[j], y as f32 / self.height as f32)
+                // self.image_buffer[i + j] =
+                //     lerp(COLOR_1[j], COLOR_2[j], y as f32 / self.height as f32)
+                // self.image_buffer[i + j] =
+                //     Color::BLACK.rgb()[j].lerp(Color::WHITE.rgb()[j], y as f32 / self.height as f32)
+                self.image_buffer[i + j] = 0.lerp(255, y as f32 / self.height as f32)
             }
         }
     }

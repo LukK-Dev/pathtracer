@@ -1,7 +1,5 @@
 use std::ops::{Add, Div, Mul, Sub};
 
-use num_traits::{real::Real, Float};
-
 pub struct Vec3 {
     pub x: f32,
     pub y: f32,
@@ -95,40 +93,6 @@ impl Div for Vec3 {
             x: self.x / rhs.x,
             y: self.y / rhs.y,
             z: self.z / rhs.z,
-        }
-    }
-}
-
-pub struct Color {
-    pub r: u8,
-    pub g: u8,
-    pub b: u8,
-    pub a: u8,
-}
-
-impl Color {
-    pub fn from_rgba(r: u8, g: u8, b: u8, a: u8) -> Self {
-        Self { r, g, b, a }
-    }
-
-    pub fn from_rgb(r: u8, g: u8, b: u8) -> Self {
-        Self { r, g, b, a: 1 }
-    }
-
-    pub fn rgba(&self) -> [u8; 4] {
-        [self.r, self.g, self.b, self.a]
-    }
-
-    pub fn rgb(&self) -> [u8; 3] {
-        [self.r, self.g, self.b]
-    }
-
-    pub fn lerp(&self, other: Color, t: f32) -> Self {
-        Self {
-            r: self.r.lerp(other.r, t),
-            g: self.g.lerp(other.g, t),
-            b: self.b.lerp(other.b, t),
-            a: 1,
         }
     }
 }
