@@ -13,6 +13,15 @@ pub struct App {
     fullscreen: bool,
 }
 
+impl Default for App {
+    fn default() -> Self {
+        Self {
+            tracer: Tracer::new(WIDTH, HEIGHT),
+            fullscreen: false,
+        }
+    }
+}
+
 impl App {
     fn resize_tracer(&mut self, width: usize, height: usize) {
         if width <= 0 || height <= 0 {
@@ -90,17 +99,8 @@ impl App {
             ui.horizontal_wrapped(|ui| {
                 ui.label(format!("Width: {}", self.tracer.width()));
                 ui.label(format!("Height: {}", self.tracer.height()));
-            })
+            });
         });
-    }
-}
-
-impl Default for App {
-    fn default() -> Self {
-        Self {
-            tracer: Tracer::new(WIDTH, HEIGHT),
-            fullscreen: false,
-        }
     }
 }
 

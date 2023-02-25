@@ -1,5 +1,8 @@
 use std::time::{Duration, Instant};
 
+const COLOR_1: [u8; 3] = [0; 3];
+const COLOR_2: [u8; 3] = [255; 3];
+
 pub struct Tracer {
     width: usize,
     height: usize,
@@ -18,10 +21,14 @@ impl Tracer {
     }
 
     pub fn trace(&mut self) {
-        const COLOR_1: [u8; 3] = [90, 122, 200];
-        const COLOR_2: [u8; 3] = [190, 142, 240];
         let frame_time = Instant::now();
 
+        self.draw_gradient();
+
+        self.frame_time = frame_time.elapsed();
+    }
+
+    fn draw_gradient(&mut self) {
         for i in (0..self.image_buffer.len()).step_by(3) {
             let y = i / self.width;
             for j in 0..2 {
@@ -29,8 +36,6 @@ impl Tracer {
                     lerp(COLOR_1[j], COLOR_2[j], y as f32 / self.height as f32)
             }
         }
-
-        self.frame_time = frame_time.elapsed();
     }
 
     pub fn image_buffer(&self) -> &[u8] {
@@ -59,8 +64,4 @@ impl Tracer {
     pub fn frame_time(&self) -> Duration {
         self.frame_time
     }
-}
-
-fn lerp(v1: u8, v2: u8, t: f32) -> u8 {
-    (v1 as f32 + (v2 as f32 - v1 as f32) * t) as u8
 }

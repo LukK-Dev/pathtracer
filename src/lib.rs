@@ -1,3 +1,5 @@
+mod math;
+
 use std::{fs::File, io::Write, path::PathBuf};
 
 pub fn save_buffer_to_ppm(
