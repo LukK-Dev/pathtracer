@@ -1,7 +1,5 @@
 use std::time::{Duration, Instant};
 
-use pathtracer::Color;
-
 use crate::math::Lerp;
 
 pub struct Tracer {
