@@ -1,5 +1,8 @@
 use std::ops::{Add, Div, Mul, Sub};
 
+pub type Point = Vec3;
+pub type Color = Vec3;
+
 #[derive(Clone, Copy, Debug)]
 pub struct Vec3 {
     pub x: f32,
@@ -158,6 +161,29 @@ impl Div<f32> for Vec3 {
     }
 }
 
+#[derive(Debug)]
+pub enum QuadraticEquationSolution {
+    None,
+    One(f32),
+    Two((f32, f32)),
+}
+
+// TODO: FIX THIS BS
+pub fn solve_quadratic_equation(a: f32, b: f32, c: f32) -> QuadraticEquationSolution {
+    let discriminant = b * b - 4.0 * a * c;
+    if discriminant.is_sign_negative() {
+        return QuadraticEquationSolution::None;
+    } else if discriminant == 0.0 {
+        // wrong
+        return QuadraticEquationSolution::One(0.0);
+    } else {
+        return QuadraticEquationSolution::Two((
+            (-b + discriminant.sqrt()) / (2.0 * a),
+            (-b - discriminant.sqrt()) / (2.0 * a),
+        ));
+    }
+}
+
 // not ideal
 pub trait Lerp<T> {
     fn lerp(&self, other: Self, t: T) -> Self;
@@ -173,4 +199,8 @@ impl Lerp<f32> for f32 {
     fn lerp(&self, other: Self, t: f32) -> Self {
         *self + (*self - other) * t
     }
+}
+
+pub fn lerp(v1: u8, v2: u8, t: f32) -> u8 {
+    (v1 as f32 + (v2 as f32 - v1 as f32) * t) as u8
 }

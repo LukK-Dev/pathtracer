@@ -1,7 +1,5 @@
 use std::time::{Duration, Instant};
 
-use crate::math::Lerp;
-
 pub struct Tracer {
     width: usize,
     height: usize,
@@ -28,15 +26,10 @@ impl Tracer {
     }
 
     fn draw_gradient(&mut self) {
-        for i in (0..self.image_buffer.len()).step_by(3) {
-            let y = i / self.width;
-            for j in 0..2 {
-                // self.image_buffer[i + j] =
-                //     lerp(COLOR_1[j], COLOR_2[j], y as f32 / self.height as f32)
-                // self.image_buffer[i + j] =
-                //     Color::BLACK.rgb()[j].lerp(Color::WHITE.rgb()[j], y as f32 / self.height as f32)
-                self.image_buffer[i + j] = 0.lerp(255, y as f32 / self.height as f32)
-            }
+        for i in 0..self.image_buffer.len() {
+            let y = i / self.width * 3;
+            let t = self.height / (y + 1);
+            self.image_buffer[i] = crate::math::lerp(0, 255, t as f32);
         }
     }
 
@@ -52,14 +45,20 @@ impl Tracer {
         self.height
     }
 
+    pub fn aspect_ratio(&self) -> f32 {
+        self.width as f32 / self.height as f32
+    }
+
     pub fn resize(&mut self, width: usize, height: usize) -> anyhow::Result<()> {
         if width < 1 || height < 1 {
             anyhow::bail!("Failed to resize tracer; size must be greater than zero!")
         }
 
-        self.width = width;
-        self.height = height;
-        self.image_buffer.resize(width * height * 3, 255);
+        if self.width != width || self.height != height {
+            self.width = width;
+            self.height = height;
+            self.image_buffer.resize(width * height * 3, 255);
+        }
         Ok(())
     }
 
